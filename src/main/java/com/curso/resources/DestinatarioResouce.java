@@ -1,9 +1,10 @@
-package com.curso.resoucers;
+package com.curso.resources;
 
 import com.curso.domains.Destinatario;
 import com.curso.domains.dtos.DestinatarioDTO;
 import com.curso.services.DestinatarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/destinatario")
+@Tag(name = "destinatarios", description="API para Gerenciamento de destinatarios")
 public class DestinatarioResouce {
 
     @Autowired

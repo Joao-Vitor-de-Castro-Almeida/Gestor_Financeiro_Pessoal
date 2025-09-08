@@ -1,9 +1,10 @@
-package com.curso.resoucers;
+package com.curso.resources;
 
 import com.curso.domains.Conta;
 import com.curso.domains.dtos.ContaDTO;
 import com.curso.services.ContaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/conta")
+@Tag(name = "contas", description="API para Gerenciamento de contas")
 public class ContaResouce {
 
     @Autowired
@@ -50,6 +52,22 @@ public class ContaResouce {
     public ResponseEntity<ContaDTO> update(@PathVariable Integer id, @Valid @RequestBody ContaDTO objDto){
         Conta Obj = contaService.update(id, objDto);
         return ResponseEntity.ok().body(new ContaDTO(Obj));
+    }
+
+    @PostMapping("/{id}/depositar")
+    @Operation(summary = "Deposita em uma Conta",
+            description = "Realiza um depósito em uma conta existente")
+    public ResponseEntity<ContaDTO> depositar(@PathVariable Integer id, @RequestParam double valor) {
+        Conta conta = contaService.depositar(id, valor);
+        return ResponseEntity.ok(new ContaDTO(conta));
+    }
+
+    @PostMapping("/{id}/sacar")
+    @Operation(summary = "Saque em uma Conta",
+            description = "Realiza um saque de uma conta existente")
+    public ResponseEntity<ContaDTO> sacar(@PathVariable Integer id, @RequestParam double valor) {
+        Conta conta = contaService.sacar(id, valor);
+        return ResponseEntity.ok(new ContaDTO(conta));
     }
 
     @DeleteMapping(value = "/{id}")

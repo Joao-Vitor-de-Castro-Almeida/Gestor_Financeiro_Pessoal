@@ -1,9 +1,10 @@
-package com.curso.resoucers;
+package com.curso.resources;
 
 import com.curso.domains.CentroCusto;
 import com.curso.domains.dtos.CentroCustoDTO;
 import com.curso.services.CentroCustoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/centroCusto")
+@Tag(name = "centroCustos", description="API para Gerenciamento de centroCustos")
 public class CentroCustoResouce {
 
     @Autowired

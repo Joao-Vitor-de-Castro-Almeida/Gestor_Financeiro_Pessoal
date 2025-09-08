@@ -4,9 +4,11 @@ import com.curso.domains.dtos.ContaDTO;
 import com.curso.domains.enums.TipoConta;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.apache.logging.log4j.message.Message;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import org.springframework.format.Printer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +75,6 @@ public class Conta {
         this.numero = dto.getNumero();
         this.tipoConta = dto.getTipoConta();
         this.agencia = dto.getAgencia();
-        this.titular = dto.getTitular();
-        this.banco = dto.getBanco();
         this.saldo = dto.getSaldo();
         this.limite = dto.getLimite();
         this.descricao = dto.getDescricao();
@@ -174,4 +174,26 @@ public class Conta {
     public int hashCode() {
         return Objects.hash(id, numero, tipoConta, agencia, titular, banco, saldo, limite, descricao);
     }
+
+    public void Depositar(double valor) {
+        if (valor <= 0) {
+            throw new IllegalArgumentException("O valor do depósito deve ser positivo.");
+        }
+        double novoSaldo = saldo + valor;
+        if (novoSaldo > limite) {
+            throw new IllegalArgumentException("Depósito excede o limite permitido.");
+        }
+        saldo = novoSaldo;
+    }
+
+    public void Sacar(double valor) {
+        if (valor <= 0) {
+            throw new IllegalArgumentException("O valor do saque deve ser positivo.");
+        }
+        if (valor > saldo) {
+            throw new IllegalArgumentException("Saldo insuficiente para saque.");
+        }
+        saldo -= valor;
+    }
+
 }

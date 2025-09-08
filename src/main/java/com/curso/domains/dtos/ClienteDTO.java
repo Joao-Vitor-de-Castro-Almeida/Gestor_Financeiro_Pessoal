@@ -3,6 +3,7 @@ package com.curso.domains.dtos;
 import com.curso.domains.Cliente;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.br.CPF;
 
 public class ClienteDTO {
 
@@ -20,6 +21,10 @@ public class ClienteDTO {
     @NotBlank(message = "O campo email não pode estar vazio")
     private String email;
 
+    @NotNull(message = "O campo password não pode ser nulo")
+    @NotBlank(message = "O campo password não pode estar vazio")
+    private String password;
+
     @NotNull(message = "O campo telefone não pode ser nulo")
     @NotBlank(message = "O campo telefone não pode estar vazio")
     private String telefone;
@@ -32,6 +37,7 @@ public class ClienteDTO {
         this.nome = cliente.getNome();
         this.cpf = cliente.getCpf();
         this.email = cliente.getEmail();
+        this.password = cliente.getPassword();
         this.telefone = cliente.getTelefone();
     }
 
@@ -65,6 +71,14 @@ public class ClienteDTO {
 
     public void setEmail(@NotNull(message = "O campo email não pode ser nulo") @NotBlank(message = "O campo email não pode estar vazio") String email) {
         this.email = email;
+    }
+
+    public @NotNull(message = "O campo password não pode ser nulo") @NotBlank(message = "O campo password não pode estar vazio") String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NotNull(message = "O campo password não pode ser nulo") @NotBlank(message = "O campo password não pode estar vazio") String password) {
+        this.password = password;
     }
 
     public @NotNull(message = "O campo telefone não pode ser nulo") @NotBlank(message = "O campo telefone não pode estar vazio") String getTelefone() {

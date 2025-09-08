@@ -83,8 +83,6 @@ public class Lancamento {
 
     public Lancamento(LancamentoDTO dto) {
         this.id = dto.getId();
-        this.conta = dto.getConta();
-        this.centroCusto = dto.getCentroCusto();
         this.descricao = dto.getDescricao();
         this.parcela = dto.getParcela();
         this.dataLanca = dto.getDataLanca();
@@ -205,9 +203,12 @@ public class Lancamento {
         return Objects.hash(id, conta, centroCusto, descricao, parcela, dataLanca, dataVenci, dataBaixa, valorDocumento, tipoLancamento, situacao);
     }
 
-    public void Baixar(){
-        if(this.situacao == Situacao.ABERTO){
+    public void baixar() {
+        if (this.situacao == Situacao.ABERTO) {
             this.situacao = Situacao.BAIXADO;
+            this.dataBaixa = LocalDate.now();
+        } else {
+            throw new IllegalStateException("O lançamento não está em aberto e não pode ser baixado!");
         }
     }
 

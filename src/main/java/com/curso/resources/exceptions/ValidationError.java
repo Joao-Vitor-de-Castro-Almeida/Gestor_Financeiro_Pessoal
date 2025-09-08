@@ -1,4 +1,4 @@
-package com.curso.resoucers.exceptions;
+package com.curso.resources.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,6 +3,8 @@ package com.curso.services;
 import com.curso.domains.CentroCusto;
 import com.curso.domains.dtos.CentroCustoDTO;
 import com.curso.repositories.CentroCustoRepository;
+import com.curso.repositories.LancamentoRepository;
+import com.curso.services.exceptions.DataIntegrityViolationException;
 import com.curso.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class CentroCustoService {
 
     @Autowired
     private CentroCustoRepository centroCustoRepo;
+
+    @Autowired
+    private LancamentoRepository lancamentoRepo;
 
 
     public List<CentroCustoDTO> findAll(){
@@ -44,6 +49,11 @@ public class CentroCustoService {
 
     public void delete(Integer id){
         CentroCusto obj = findById(id);
+        if (!lancamentoRepo.findById(id).isEmpty()) {
+            throw new DataIntegrityViolationException(
+                    "Não é possível deletar: existem lançamentos vinculados a este Centro de Custo"
+            );
+        }
         centroCustoRepo.deleteById(id);
     }
 }

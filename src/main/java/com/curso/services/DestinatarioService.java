@@ -2,8 +2,10 @@ package com.curso.services;
 
 
 import com.curso.domains.Destinatario;
+import com.curso.domains.Lancamento;
 import com.curso.domains.dtos.DestinatarioDTO;
 import com.curso.repositories.DestinatarioRepository;
+import com.curso.repositories.LancamentoRepository;
 import com.curso.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class DestinatarioService {
     @Autowired
     private DestinatarioRepository destinatarioRepo;
 
+    @Autowired
+    private LancamentoRepository lancamentoRepo;
 
     public List<DestinatarioDTO> findAll(){
         return  destinatarioRepo.findAll().stream()
@@ -31,15 +35,35 @@ public class DestinatarioService {
     }
 
     public Destinatario create(DestinatarioDTO dto){
-        dto.setId(null);
-        Destinatario obj = new Destinatario(dto);
+        Destinatario obj = new Destinatario();
+
+        obj.setRazaoSocial(dto.getRazaoSocial());
+        obj.setValor(dto.getValor());
+        obj.setDataRecibi(dto.getDataRecibi());
+
+        if (dto.getLancamentoId() != null) {
+            Lancamento lancamento = lancamentoRepo.findById(dto.getLancamentoId())
+                    .orElseThrow(() -> new ObjectNotFoundException("Lançamento não encontrado! Id: " + dto.getLancamentoId()));
+            obj.setLancamento(lancamento);
+        }
+
         return destinatarioRepo.save(obj);
     }
 
     public Destinatario update(Integer id, DestinatarioDTO objDto){
-        objDto.setId(id);
-        Destinatario oldObj = findById(id);
-        oldObj = new Destinatario(objDto);
+        Destinatario oldObj = destinatarioRepo.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Destinatário não encontrado! Id: " + id));
+
+        oldObj.setRazaoSocial(objDto.getRazaoSocial());
+        oldObj.setValor(objDto.getValor());
+        oldObj.setDataRecibi(objDto.getDataRecibi());
+
+        if (objDto.getLancamentoId() != null) {
+            Lancamento lancamento = lancamentoRepo.findById(objDto.getLancamentoId())
+                    .orElseThrow(() -> new ObjectNotFoundException("Lançamento não encontrado! Id: " + objDto.getLancamentoId()));
+            oldObj.setLancamento(lancamento);
+        }
+
         return destinatarioRepo.save(oldObj);
     }
 

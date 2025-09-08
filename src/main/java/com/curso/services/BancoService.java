@@ -3,6 +3,8 @@ package com.curso.services;
 import com.curso.domains.Banco;
 import com.curso.domains.dtos.BancoDTO;
 import com.curso.repositories.BancoRepository;
+import com.curso.repositories.ContaRepository;
+import com.curso.services.exceptions.DataIntegrityViolationException;
 import com.curso.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ public class BancoService {
     @Autowired
     private BancoRepository bancoRepo;
 
+    @Autowired
+    private ContaRepository contaRepo;
 
     public List<BancoDTO> findAll(){
         return  bancoRepo.findAll().stream()
@@ -45,6 +49,11 @@ public class BancoService {
 
     public void delete(Integer id){
         Banco obj = findById(id);
+        if (!contaRepo.findById(id).isEmpty()) {
+            throw new DataIntegrityViolationException(
+                    "Não é possível deletar: existem Contas vinculados a este Banco"
+            );
+        }
         bancoRepo.deleteById(id);
     }
 }

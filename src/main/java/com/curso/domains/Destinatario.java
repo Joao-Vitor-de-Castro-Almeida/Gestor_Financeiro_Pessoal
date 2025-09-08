@@ -45,7 +45,6 @@ public class Destinatario {
     public Destinatario(DestinatarioDTO dto) {
         this.id = dto.getId();
         this.razaoSocial = dto.getRazaoSocial();
-        this.lancamento = dto.getLancamento();
         this.Valor = dto.getValor();
         this.dataRecibi = dto.getDataRecibi();
     }

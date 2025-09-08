@@ -1,16 +1,10 @@
 package com.curso.domains.dtos;
 
-import com.curso.domains.CentroCusto;
-import com.curso.domains.Conta;
+
 import com.curso.domains.Lancamento;
 import com.curso.domains.enums.Situacao;
 import com.curso.domains.enums.TipoLancamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,11 +14,13 @@ public class LancamentoDTO {
 
     private Integer id;
 
-    @NotNull(message = "O campo conta é requerido")
-    private Conta conta;
+    private Integer contaId;
 
-    @NotNull(message = "O campo centroCusto é requerido")
-    private CentroCusto centroCusto;
+    private String  conta;
+
+    private Integer centroCustoId;
+
+    private String  centroCusto;
 
     @NotNull(message = "O campo descricao não pode ser nulo")
     @NotBlank(message = "O campo descricao não pode estar vazio")
@@ -55,8 +51,20 @@ public class LancamentoDTO {
 
     public LancamentoDTO(Lancamento lancamento) {
         this.id = lancamento.getId();
-        this.conta = lancamento.getConta();
-        this.centroCusto = lancamento.getCentroCusto();
+
+        if (lancamento.getConta() != null) {
+            this.contaId = lancamento.getConta().getId();
+            this.conta = lancamento.getConta().getNumero();
+        } else {
+            this.contaId = null;
+        }
+
+        if (lancamento.getCentroCusto() != null) {
+            this.centroCustoId = lancamento.getCentroCusto().getId();
+            this.centroCusto = lancamento.getCentroCusto().getDescricao();
+        } else {
+            this.centroCustoId = null;
+        }
         this.descricao = lancamento.getDescricao();
         this.parcela = lancamento.getParcela();
         this.dataLanca = lancamento.getDataLanca();
@@ -75,19 +83,35 @@ public class LancamentoDTO {
         this.id = id;
     }
 
-    public @NotNull(message = "O campo conta é requerido") Conta getConta() {
+    public Integer getContaId() {
+        return contaId;
+    }
+
+    public void setContaId(Integer contaId) {
+        this.contaId = contaId;
+    }
+
+    public String getConta() {
         return conta;
     }
 
-    public void setConta(@NotNull(message = "O campo conta é requerido") Conta conta) {
+    public void setConta(String conta) {
         this.conta = conta;
     }
 
-    public @NotNull(message = "O campo centroCusto é requerido") CentroCusto getCentroCusto() {
+    public Integer getCentroCustoId() {
+        return centroCustoId;
+    }
+
+    public void setCentroCustoId(Integer centroCustoId) {
+        this.centroCustoId = centroCustoId;
+    }
+
+    public String getCentroCusto() {
         return centroCusto;
     }
 
-    public void setCentroCusto(@NotNull(message = "O campo centroCusto é requerido") CentroCusto centroCusto) {
+    public void setCentroCusto(String centroCusto) {
         this.centroCusto = centroCusto;
     }
 

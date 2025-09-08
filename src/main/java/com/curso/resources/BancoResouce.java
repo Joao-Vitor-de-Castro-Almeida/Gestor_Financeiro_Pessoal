@@ -1,9 +1,10 @@
-package com.curso.resoucers;
+package com.curso.resources;
 
 import com.curso.domains.Banco;
 import com.curso.domains.dtos.BancoDTO;
 import com.curso.services.BancoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/banco")
+@Tag(name = "bancos", description="API para Gerenciamento de bancos")
 public class BancoResouce {
 
     @Autowired

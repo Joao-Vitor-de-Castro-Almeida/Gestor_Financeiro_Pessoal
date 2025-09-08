@@ -6,6 +6,7 @@ import com.curso.domains.enums.TipoConta;
 import com.curso.domains.enums.TipoLancamento;
 import com.curso.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,6 +32,15 @@ public class DBService {
     @Autowired
     private BancoRepository bancoRepo;
 
+    @Autowired
+    private TechnicianRepository techRepo;
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
 
     public void initDB(){
 
@@ -42,7 +52,7 @@ public class DBService {
 
         centroCustoRepo.save(centro1);
 
-        Cliente cliente1 = new Cliente(null,"Maneizes","54783485","manezes@gmail.com","99788524");
+        Cliente cliente1 = new Cliente(null,"Maneizes Santos","54783485","manezes@gmail.com","123","99788524");
 
         clienteRepo.save(cliente1);
 
@@ -58,6 +68,16 @@ public class DBService {
         Destinatario destinatario1 = new Destinatario(null,"Motos Velo",lancamento1,200,LocalDate.of(2025,07,20));
 
         destinatarioRepo.save(destinatario1);
+
+        Technician tec1 = new
+                Technician(null,"Matias","Fernandes",
+                "79548964000","Matias@gmail.com",encoder.encode("123"));
+
+        User user01 = new User(null, "Maneizes", "Santos",
+                "5478348599", "manezes@gmail.com",encoder.encode("123"));
+
+        techRepo.save(tec1);
+        userRepo.save(user01);
 
     }
 }

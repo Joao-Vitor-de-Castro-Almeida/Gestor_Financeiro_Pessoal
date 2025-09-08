@@ -1,11 +1,7 @@
 package com.curso.domains.dtos;
 
 import com.curso.domains.Destinatario;
-import com.curso.domains.Lancamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,8 +15,9 @@ public class DestinatarioDTO {
     @NotBlank(message = "O campo razaoSocial não pode estar vazio")
     private String razaoSocial;
 
-    @NotNull(message = "O campo lancamento é requerido")
-    private Lancamento lancamento;
+    private Integer lancamentoId;
+
+    private String lancamento;
 
     @NotNull(message = "O campo Valor não pode ser nulo")
     private double Valor;
@@ -34,7 +31,14 @@ public class DestinatarioDTO {
     public DestinatarioDTO(Destinatario destinatario) {
         this.id = destinatario.getId();
         this.razaoSocial = destinatario.getRazaoSocial();
-        this.lancamento = destinatario.getLancamento();
+
+        if (destinatario.getLancamento() != null) {
+            this.lancamentoId = destinatario.getLancamento().getId();
+            this.lancamento = destinatario.getLancamento().getParcela();
+        } else {
+            this.lancamentoId = null;
+        }
+
         this.Valor = destinatario.getValor();
         this.dataRecibi = destinatario.getDataRecibi();
     }
@@ -55,11 +59,19 @@ public class DestinatarioDTO {
         this.razaoSocial = razaoSocial;
     }
 
-    public @NotNull(message = "O campo lancamento é requerido") Lancamento getLancamento() {
+    public Integer getLancamentoId() {
+        return lancamentoId;
+    }
+
+    public void setLancamentoId(Integer lancamentoId) {
+        this.lancamentoId = lancamentoId;
+    }
+
+    public String getLancamento() {
         return lancamento;
     }
 
-    public void setLancamento(@NotNull(message = "O campo lancamento é requerido") Lancamento lancamento) {
+    public void setLancamento(String lancamento) {
         this.lancamento = lancamento;
     }
 

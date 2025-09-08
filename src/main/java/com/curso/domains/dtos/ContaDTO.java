@@ -4,8 +4,6 @@ import com.curso.domains.Banco;
 import com.curso.domains.Cliente;
 import com.curso.domains.Conta;
 import com.curso.domains.enums.TipoConta;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,11 +21,13 @@ public class ContaDTO {
     @NotBlank(message = "O campo agencia não pode estar vazio")
     private String agencia;
 
-    @NotNull(message = "O campo titular é requerido")
-    private Cliente titular;
+    private Integer clienteId;
 
-    @NotNull(message = "O campo banco é requerido")
-    private Banco banco;
+    private String titular;
+
+    private Integer bancoId;
+
+    private String banco;
 
     @NotNull(message = "O campo saldo não pode ser nulo")
     private double saldo;
@@ -47,8 +47,21 @@ public class ContaDTO {
         this.numero = conta.getNumero();
         this.tipoConta = conta.getTipoConta();
         this.agencia = conta.getAgencia();
-        this.titular = conta.getTitular();
-        this.banco = conta.getBanco();
+
+        if (conta.getTitular() != null) {
+            this.clienteId = conta.getTitular().getId();
+            this.titular = conta.getTitular().getNome();
+        } else {
+            this.clienteId = null;
+        }
+
+        if (conta.getBanco() != null) {
+            this.bancoId = conta.getBanco().getId();
+            this.banco = conta.getBanco().getRazaoSocial();
+        } else {
+            this.bancoId = null;
+        }
+
         this.saldo = conta.getSaldo();
         this.limite = conta.getLimite();
         this.descricao = conta.getDescricao();
@@ -86,19 +99,35 @@ public class ContaDTO {
         this.agencia = agencia;
     }
 
-    public @NotNull(message = "O campo titular é requerido") Cliente getTitular() {
+    public Integer getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Integer clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public String getTitular() {
         return titular;
     }
 
-    public void setTitular(@NotNull(message = "O campo titular é requerido") Cliente titular) {
+    public void setTitular(String titular) {
         this.titular = titular;
     }
 
-    public @NotNull(message = "O campo banco é requerido") Banco getBanco() {
+    public Integer getBancoId() {
+        return bancoId;
+    }
+
+    public void setBancoId(Integer bancoId) {
+        this.bancoId = bancoId;
+    }
+
+    public String getBanco() {
         return banco;
     }
 
-    public void setBanco(@NotNull(message = "O campo banco é requerido") Banco banco) {
+    public void setBanco(String banco) {
         this.banco = banco;
     }
 

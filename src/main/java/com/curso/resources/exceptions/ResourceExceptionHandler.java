@@ -1,4 +1,4 @@
-package com.curso.resoucers.exceptions;
+package com.curso.resources.exceptions;
 
 import com.curso.services.exceptions.DataIntegrityViolationException;
 import com.curso.services.exceptions.ObjectNotFoundException;
@@ -16,7 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class ResourceExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<com.curso.resoucers.exceptions.StandardError> objectNotFoundException(ObjectNotFoundException ex, HttpServletRequest request)
+    public ResponseEntity<com.curso.resources.exceptions.StandardError> objectNotFoundException(ObjectNotFoundException ex, HttpServletRequest request)
     {
          StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
                  "Object not found",ex.getMessage(),request.getRequestURI());

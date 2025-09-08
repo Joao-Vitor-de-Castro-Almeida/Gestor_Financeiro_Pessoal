@@ -1,9 +1,10 @@
-package com.curso.resoucers;
+package com.curso.resources;
 
 import com.curso.domains.Lancamento;
 import com.curso.domains.dtos.LancamentoDTO;
 import com.curso.services.LancamentoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/lancamento")
+@Tag(name = "lancamentos", description="API para Gerenciamento de lancamentos")
 public class LancamentoResouce {
 
     @Autowired
@@ -50,6 +52,14 @@ public class LancamentoResouce {
     public ResponseEntity<LancamentoDTO> update(@PathVariable Integer id, @Valid @RequestBody LancamentoDTO objDto){
         Lancamento Obj = lancamentoService.update(id, objDto);
         return ResponseEntity.ok().body(new LancamentoDTO(Obj));
+    }
+
+    @PatchMapping("/{id}/baixar")
+    @Operation(summary = "Baixa um Lançamento",
+            description = "Altera a situação de um lançamento de ABERTO para BAIXADO")
+    public ResponseEntity<Lancamento> baixar(@PathVariable Integer id) {
+        Lancamento obj = lancamentoService.baixar(id);
+        return ResponseEntity.ok(obj);
     }
 
     @DeleteMapping(value = "/{id}")

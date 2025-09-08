@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +14,7 @@ import java.util.Objects;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seq_cliente")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente")
     private Integer id;
 
     @NotBlank @NotNull
@@ -28,28 +27,32 @@ public class Cliente {
     private String email;
 
     @NotBlank @NotNull
+    private String password;
+
+    @NotBlank @NotNull
     private String telefone;
 
     @JsonIgnore
     @OneToMany(mappedBy = "titular")
     private List<Conta> contas = new ArrayList<>();
 
-    public Cliente(){
-    }
+    public Cliente() { }
 
-    public Cliente(Integer id, String nome, String cpf, String email, String telefone){
+    public Cliente(Integer id, String nome, String cpf, String email, String password, String telefone) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
+        this.password = password;
         this.telefone = telefone;
     }
 
-    public Cliente(ClienteDTO dto){
+    public Cliente(ClienteDTO dto) {
         this.id = dto.getId();
         this.nome = dto.getNome();
         this.cpf = dto.getCpf();
         this.email = dto.getEmail();
+        this.password = dto.getPassword();
         this.telefone = dto.getTelefone();
     }
 
@@ -85,6 +88,14 @@ public class Cliente {
         this.email = email;
     }
 
+    public @NotBlank @NotNull String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NotBlank @NotNull String password) {
+        this.password = password;
+    }
+
     public @NotBlank @NotNull String getTelefone() {
         return telefone;
     }
@@ -106,11 +117,11 @@ public class Cliente {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cliente cliente = (Cliente) o;
-        return Objects.equals(id, cliente.id) && Objects.equals(nome, cliente.nome) && Objects.equals(cpf, cliente.cpf) && Objects.equals(email, cliente.email) && Objects.equals(telefone, cliente.telefone);
+        return Objects.equals(id, cliente.id) && Objects.equals(nome, cliente.nome) && Objects.equals(cpf, cliente.cpf) && Objects.equals(email, cliente.email) && Objects.equals(password, cliente.password) && Objects.equals(telefone, cliente.telefone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, cpf, email, telefone);
+        return Objects.hash(id, nome, cpf, email, password, telefone);
     }
 }
