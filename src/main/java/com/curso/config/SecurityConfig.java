@@ -25,7 +25,22 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private static final String[] PUBLIC_URLS = {"/h2-console/**","/auth/**","/login"};
+    private static final String[] PUBLIC_URLS = {
+            "/h2-console/**",
+            "/auth/**",
+            "/login",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/cliente/**",
+            "/lancamento/**",
+            "/destinatario/**",
+            "/conta/**",
+            "/banco/**",
+            "/centroCusto/**"
+    };
 
     private final Environment env;
     private final JWTUtils jwtUtils;
@@ -62,7 +77,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

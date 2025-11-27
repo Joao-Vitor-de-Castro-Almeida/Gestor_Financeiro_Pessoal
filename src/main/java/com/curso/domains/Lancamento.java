@@ -46,6 +46,10 @@ public class Lancamento {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataBaixa;
 
+    @ManyToOne
+    @JoinColumn(name = "iddestinatario")
+    private Destinatario destinatario;
+
     @NotNull
     private double valorDocumento;
 
@@ -57,16 +61,13 @@ public class Lancamento {
     @JoinColumn(name="situacao")
     private Situacao situacao;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "lancamento")
-    private List<Destinatario> destinatarios = new ArrayList<>();
 
     public Lancamento() {
         this.situacao = Situacao.ABERTO;
     }
 
     public Lancamento(Integer id, Conta conta, CentroCusto centroCusto, String descricao,
-                      String parcela, LocalDate dataLanca, LocalDate dataVenci, LocalDate dataBaixa,
+                      String parcela, LocalDate dataLanca, LocalDate dataVenci, LocalDate dataBaixa,Destinatario destinatario,
                       double valorDocumento, TipoLancamento tipoLancamento, Situacao situacao) {
         this.id = id;
         this.conta = conta;
@@ -76,6 +77,7 @@ public class Lancamento {
         this.dataLanca = dataLanca;
         this.dataVenci = dataVenci;
         this.dataBaixa = dataBaixa;
+        this.destinatario = destinatario;
         this.valorDocumento = valorDocumento;
         this.tipoLancamento = tipoLancamento;
         this.situacao = situacao;
@@ -157,6 +159,14 @@ public class Lancamento {
         this.dataBaixa = dataBaixa;
     }
 
+    public Destinatario getDestinatario() {
+        return destinatario;
+    }
+
+    public void setDestinatario(Destinatario destinatario) {
+        this.destinatario = destinatario;
+    }
+
     @NotNull
     public double getValorDocumento() {
         return valorDocumento;
@@ -182,13 +192,6 @@ public class Lancamento {
         this.situacao = situacao;
     }
 
-    public List<Destinatario> getDestinatarios() {
-        return destinatarios;
-    }
-
-    public void setDestinatarios(List<Destinatario> destinatarios) {
-        this.destinatarios = destinatarios;
-    }
 
     @Override
     public boolean equals(Object o) {

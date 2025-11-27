@@ -1,7 +1,5 @@
 package com.curso.domains.dtos;
 
-import com.curso.domains.Banco;
-import com.curso.domains.Cliente;
 import com.curso.domains.Conta;
 import com.curso.domains.enums.TipoConta;
 import jakarta.validation.constraints.NotBlank;
@@ -22,18 +20,16 @@ public class ContaDTO {
     private String agencia;
 
     private Integer clienteId;
-
     private String titular;
 
     private Integer bancoId;
-
     private String banco;
 
     @NotNull(message = "O campo saldo não pode ser nulo")
-    private double saldo;
+    private Double saldo;
 
     @NotNull(message = "O campo limite não pode ser nulo")
-    private double limite;
+    private Double limite;
 
     @NotNull(message = "O campo descricao não pode ser nulo")
     @NotBlank(message = "O campo descricao não pode estar vazio")
@@ -51,15 +47,11 @@ public class ContaDTO {
         if (conta.getTitular() != null) {
             this.clienteId = conta.getTitular().getId();
             this.titular = conta.getTitular().getNome();
-        } else {
-            this.clienteId = null;
         }
 
         if (conta.getBanco() != null) {
             this.bancoId = conta.getBanco().getId();
             this.banco = conta.getBanco().getRazaoSocial();
-        } else {
-            this.bancoId = null;
         }
 
         this.saldo = conta.getSaldo();
@@ -75,11 +67,11 @@ public class ContaDTO {
         this.id = id;
     }
 
-    public @NotNull(message = "O campo numero não pode ser nulo") @NotBlank(message = "O campo numero não pode estar vazio") String getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(@NotNull(message = "O campo numero não pode ser nulo") @NotBlank(message = "O campo numero não pode estar vazio") String numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -91,11 +83,11 @@ public class ContaDTO {
         this.tipoConta = tipoConta;
     }
 
-    public @NotNull(message = "O campo agencia não pode ser nulo") @NotBlank(message = "O campo agencia não pode estar vazio") String getAgencia() {
+    public String getAgencia() {
         return agencia;
     }
 
-    public void setAgencia(@NotNull(message = "O campo agencia não pode ser nulo") @NotBlank(message = "O campo agencia não pode estar vazio") String agencia) {
+    public void setAgencia(String agencia) {
         this.agencia = agencia;
     }
 
@@ -131,29 +123,27 @@ public class ContaDTO {
         this.banco = banco;
     }
 
-    @NotNull(message = "O campo saldo não pode ser nulo")
-    public double getSaldo() {
+    public Double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(@NotNull(message = "O campo saldo não pode ser nulo") double saldo) {
+    public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
 
-    @NotNull(message = "O campo limite não pode ser nulo")
-    public double getLimite() {
+    public Double getLimite() {
         return limite;
     }
 
-    public void setLimite(@NotNull(message = "O campo limite não pode ser nulo") double limite) {
+    public void setLimite(Double limite) {
         this.limite = limite;
     }
 
-    public @NotNull(message = "O campo descricao não pode ser nulo") @NotBlank(message = "O campo descricao não pode estar vazio") String getDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(@NotNull(message = "O campo descricao não pode ser nulo") @NotBlank(message = "O campo descricao não pode estar vazio") String descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 }

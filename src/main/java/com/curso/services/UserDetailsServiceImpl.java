@@ -1,7 +1,7 @@
 package com.curso.services;
 
-import com.curso.repositories.PersonRepository;
-import com.curso.domains.Person;
+import com.curso.domains.Cliente;
+import com.curso.repositories.ClienteRepository;
 import com.curso.security.UserSS;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,15 +11,15 @@ import java.util.Optional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final PersonRepository personRepository;
+    private final ClienteRepository clienteRepo;
 
-    public UserDetailsServiceImpl(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    public UserDetailsServiceImpl(ClienteRepository clienteRepo) {
+        this.clienteRepo = clienteRepo;
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<Person> user = personRepository.findByEmail(username);
+        Optional<Cliente> user = clienteRepo.findByEmail(username);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found: " + username);
         }

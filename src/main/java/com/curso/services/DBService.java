@@ -33,12 +33,6 @@ public class DBService {
     private BancoRepository bancoRepo;
 
     @Autowired
-    private TechnicianRepository techRepo;
-
-    @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
     private PasswordEncoder encoder;
 
 
@@ -52,7 +46,7 @@ public class DBService {
 
         centroCustoRepo.save(centro1);
 
-        Cliente cliente1 = new Cliente(null,"Maneizes Santos","54783485","manezes@gmail.com","123","99788524");
+        Cliente cliente1 = new Cliente(null,"João Santos","54783485","JoaoSantos@gmail.com",encoder.encode("123"),"99788524");
 
         clienteRepo.save(cliente1);
 
@@ -60,24 +54,15 @@ public class DBService {
 
         contaRepo.save(conta1);
 
-        Lancamento lancamento1 = new Lancamento(null,conta1,centro1,"temporario","Umam compra muito importante",LocalDate.of(2024,05,17),LocalDate.of(2027,03,10),
-        LocalDate.of(2026,05,12),1000, TipoLancamento.CREDITO, Situacao.ABERTO);
-
-        lancamentoRepo.save(lancamento1);
-
-        Destinatario destinatario1 = new Destinatario(null,"Motos Velo",lancamento1,200,LocalDate.of(2025,07,20));
+        Destinatario destinatario1 = new Destinatario(null,"Motos Velo");
 
         destinatarioRepo.save(destinatario1);
 
-        Technician tec1 = new
-                Technician(null,"Matias","Fernandes",
-                "79548964000","Matias@gmail.com",encoder.encode("123"));
+        Lancamento lancamento1 = new Lancamento(null,conta1,centro1,"temporario","Uma compra muito importante",LocalDate.of(2024,05,17),LocalDate.of(2027,03,10),
+        LocalDate.of(2026,05,12),destinatario1,1000, TipoLancamento.CREDITO, Situacao.BAIXADO);
 
-        User user01 = new User(null, "Maneizes", "Santos",
-                "5478348599", "manezes@gmail.com",encoder.encode("123"));
+        lancamentoRepo.save(lancamento1);
 
-        techRepo.save(tec1);
-        userRepo.save(user01);
 
     }
 }

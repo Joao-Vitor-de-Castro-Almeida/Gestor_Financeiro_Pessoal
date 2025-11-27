@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.apache.logging.log4j.message.Message;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
-import org.springframework.format.Printer;
+
 
 import java.util.ArrayList;
 import java.util.List;

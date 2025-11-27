@@ -9,7 +9,6 @@ O Gestor_Financeiro_Pessoal é um sistema backend desenvolvido em Java com Sprin
 - Alteração de situação de lançamentos (ex.: aberto → baixado)
 - Gerenciamento de bancos, centros de custo e destinatários
 - Exposição de API REST documentada com Swagger
-- Sistema de usuários (`User`) e técnicos (`Technician`) com herança da classe base `Person`
 - Segurança com **Spring Security** e **JWT**
 
 O projeto aplica boas práticas de organização e separação em camadas, utilizando **DTOs, Services, Repositories e Controllers**.
@@ -42,7 +41,7 @@ O projeto aplica boas práticas de organização e separação em camadas, utili
 
 ## Estrutura do Projeto
 
-- **Domains** → entidades principais (Cliente, Conta, Banco, Lançamento, CentroCusto, Destinatario, Person, User, Technician).
+- **Domains** → entidades principais (Cliente, Conta, Banco, Lançamento, CentroCusto, Destinatario).
 - **DTOs** → objetos de transferência de dados.
 - **Repositories** → persistência com Spring Data JPA.
 - **Services** → regras de negócio.
@@ -109,6 +108,6 @@ O projeto aplica boas práticas de organização e separação em camadas, utili
 | GET        | `/Lancamento/{id}`            | Buscar Lancamento por ID         |
 | Post       | `/Lancamento`                 | cria um novo Lancamento          |
 | Put        | `/Lancamento/{id}`            | atualiza um Lancamento           |
-| PATCH      | /Lancamento/{id}/baixar       | Baixar um lançamento             |
+| PATCH      | `/Lancamento/{id}/baixar`     | Baixar um lançamento             |
 | Delete     | `/Lancamento/{id} `           | deleta um Lancamento             |
 | --------   | ---------------------------   | ------------------------------   |

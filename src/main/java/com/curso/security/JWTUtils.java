@@ -13,11 +13,15 @@ import java.util.Date;
 @Component
 public class JWTUtils {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final String secret;
+    private final Long expiration;
 
-    @Value("${jwt.expiration}")
-    private Long expiration;
+
+    public JWTUtils(@Value("${jwt.secret}") String secret,
+                    @Value("${jwt.expiration}") Long expiration) {
+        this.secret = secret;
+        this.expiration = expiration;
+    }
 
     public String generateToken(String username) {
         Key key = Keys.hmacShaKeyFor(secret.getBytes());
@@ -26,7 +30,7 @@ public class JWTUtils {
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
-        return "Bearer "+tokenGerado;
+        return "Bearer " + tokenGerado;
     }
 
     public boolean isTokenValid(String token) {

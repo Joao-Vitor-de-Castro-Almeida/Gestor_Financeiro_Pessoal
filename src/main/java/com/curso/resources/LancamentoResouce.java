@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "/lancamento")
 @Tag(name = "lancamentos", description="API para Gerenciamento de lancamentos")
@@ -55,11 +56,11 @@ public class LancamentoResouce {
     }
 
     @PatchMapping("/{id}/baixar")
-    @Operation(summary = "Baixa um Lançamento",
+    @Operation(summary = "Baixar um Lançamento",
             description = "Altera a situação de um lançamento de ABERTO para BAIXADO")
-    public ResponseEntity<Lancamento> baixar(@PathVariable Integer id) {
-        Lancamento obj = lancamentoService.baixar(id);
-        return ResponseEntity.ok(obj);
+    public ResponseEntity<Void> baixar(@PathVariable Integer id) {
+        lancamentoService.baixar(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/{id}")

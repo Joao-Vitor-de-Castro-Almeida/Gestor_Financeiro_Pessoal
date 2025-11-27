@@ -3,6 +3,7 @@ package com.curso.services;
 
 import com.curso.domains.CentroCusto;
 import com.curso.domains.Conta;
+import com.curso.domains.Destinatario;
 import com.curso.domains.Lancamento;
 import com.curso.domains.dtos.LancamentoDTO;
 import com.curso.repositories.CentroCustoRepository;
@@ -14,7 +15,6 @@ import com.curso.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,6 +51,9 @@ public class LancamentoService {
                 .orElseThrow(() -> new ObjectNotFoundException("Conta não encontrada! Id: " + dto.getContaId()));
         CentroCusto centro = centroCustoRepo.findById(dto.getCentroCustoId())
                 .orElseThrow(() -> new ObjectNotFoundException("Centro de Custo não encontrado! Id: " + dto.getCentroCustoId()));
+        var destinatario = destinatarioRepo.findById(dto.getDestinatarioId())
+                .orElseThrow(() -> new ObjectNotFoundException("Destinatário não encontrado! Id: " + dto.getDestinatarioId()));
+
 
         Lancamento obj = new Lancamento();
         obj.setConta(conta);
@@ -59,6 +62,7 @@ public class LancamentoService {
         obj.setParcela(dto.getParcela());
         obj.setDataLanca(dto.getDataLanca());
         obj.setDataVenci(dto.getDataVenci());
+        obj.setDestinatario(destinatario);
         obj.setValorDocumento(dto.getValorDocumento());
         obj.setTipoLancamento(dto.getTipoLancamento());
 
@@ -87,6 +91,12 @@ public class LancamentoService {
             CentroCusto cc = centroCustoRepo.findById(objDto.getCentroCustoId())
                     .orElseThrow(() -> new ObjectNotFoundException("Centro de Custo não encontrado"));
             oldObj.setCentroCusto(cc);
+        }
+
+        if (objDto.getDestinatarioId() != null) {
+            Destinatario d = destinatarioRepo.findById(objDto.getDestinatarioId())
+                    .orElseThrow(() -> new ObjectNotFoundException("Destinatario não encontrado"));
+            oldObj.setDestinatario(d);
         }
 
         return lancamentoRepo.save(oldObj);

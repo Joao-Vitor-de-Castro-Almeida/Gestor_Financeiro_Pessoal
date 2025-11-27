@@ -1,13 +1,13 @@
 package com.curso.domains;
 
 import com.curso.domains.dtos.DestinatarioDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,32 +21,21 @@ public class Destinatario {
     @NotBlank @NotNull
     private String razaoSocial;
 
-    @ManyToOne
-    @JoinColumn(name = "idlancamento")
-    private Lancamento lancamento;
-
-    @NotNull
-    private double Valor;
-
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataRecibi;
+    @JsonIgnore
+    @OneToMany(mappedBy = "destinatario")
+    private List<Lancamento> lancamentos = new ArrayList<>();
 
     public Destinatario() {
     }
 
-    public Destinatario(Integer id, String razaoSocial, Lancamento lancamento, double valor, LocalDate dataRecibi) {
+    public Destinatario(Integer id, String razaoSocial) {
         this.id = id;
         this.razaoSocial = razaoSocial;
-        this.lancamento = lancamento;
-        this.Valor = valor;
-        this.dataRecibi = dataRecibi;
     }
 
     public Destinatario(DestinatarioDTO dto) {
         this.id = dto.getId();
         this.razaoSocial = dto.getRazaoSocial();
-        this.Valor = dto.getValor();
-        this.dataRecibi = dto.getDataRecibi();
     }
 
     public Integer getId() {
@@ -65,29 +54,12 @@ public class Destinatario {
         this.razaoSocial = razaoSocial;
     }
 
-    public Lancamento getLancamento() {
-        return lancamento;
+    public List<Lancamento> getLancamentos() {
+        return lancamentos;
     }
 
-    public void setLancamento(Lancamento lancamento) {
-        this.lancamento = lancamento;
-    }
-
-    @NotNull
-    public double getValor() {
-        return Valor;
-    }
-
-    public void setValor(@NotNull double valor) {
-        Valor = valor;
-    }
-
-    public LocalDate getDataRecibi() {
-        return dataRecibi;
-    }
-
-    public void setDataRecibi(LocalDate dataRecibi) {
-        this.dataRecibi = dataRecibi;
+    public void setLancamentos(List<Lancamento> lancamentos) {
+        this.lancamentos = lancamentos;
     }
 
     @Override
@@ -95,12 +67,11 @@ public class Destinatario {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Destinatario that = (Destinatario) o;
-        return Double.compare(Valor, that.Valor) == 0 && Objects.equals(id, that.id) && Objects.equals(razaoSocial, that.razaoSocial) && Objects.equals(lancamento, that.lancamento) && Objects.equals(dataRecibi, that.dataRecibi);
+        return Objects.equals(id, that.id) && Objects.equals(razaoSocial, that.razaoSocial);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, razaoSocial, lancamento, Valor, dataRecibi);
+        return Objects.hash(id, razaoSocial);
     }
-
 }
